@@ -1,4 +1,7 @@
+"use strict";
+
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const userSchema = mongoose.Schema({
     name: {
@@ -29,9 +32,21 @@ const userSchema = mongoose.Schema({
     tokenExp: { //토큰 유효기간 
         type: Number
     }
-
-
 })
+
+// hash password 
+userSchema.pre('save', function (next) {
+    const user = this;
+    if (!user.isModified('password')) {
+        return next();
+    }
+    else {
+        user.password = bcrypt.hashSync(user.password);
+        return next();
+    }
+});
+
+
 
 // 위에서 정의한 스키마를 모델로 감싸준다. 
 const User = mongoose.model('user', userSchema);

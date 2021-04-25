@@ -8,7 +8,6 @@ const mongoose = require('mongoose');
 require('dotenv').config({ path: '.env' })
 
 
-
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -18,12 +17,7 @@ app.use(bodyParser.json());
 
 //라우트 
 app.use('/', require('./routes/home'));
-// app.use('/posts, require()');
-
-const port = 3000
-app.listen(port, () => {
-    console.log(`서버 실행됨 http://localhost:${port}`)
-})
+app.use('/users', require('./routes/users'));
 
 
 
@@ -41,3 +35,14 @@ db.once('open', () => {
 db.on('error', (err) => {
     console.log(`DB ERROR : ${err}`);
 });
+
+
+
+
+
+
+// 서버 연결 
+const port = 3000
+app.listen(port, () => {
+    console.log(`서버 실행됨 http://localhost:${port}`)
+})
